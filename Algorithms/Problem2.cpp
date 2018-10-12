@@ -13,33 +13,29 @@
  * Last Updated 4/6/2014
  */
 
-
 #include <stdio.h>
 
-int Problem2(void);
+long Problem2(void);
 
-//Small main to allow problems to all be combined into one program
+/* I fit a pattern here to make sure that every main can be consistent in these */
 int main(int argc, char * argv[])
 {
     Problem2();
-    return 0;
 }
 
-int Problem2(void)
+long Problem2(void)
 {
-    //Iteration #1 "Brute Force"
-    int sum = 0;
+    long sum = 0; // Sum of primes
     int prev = 1;
     int cur = 2;
     int mid = 0;
     while(cur < 4000000)
     {
-        if(cur%2 == 0) sum += cur;
+        if(cur%2 == 0) sum += cur; // Small optimization to auto add evens
         mid = cur;
-        cur = prev + cur;
+        cur += prev;
         prev = mid;
     }
-
-    printf("The sum of all Fibonacci sequence numbers less than 4000000 is %d\n",sum);
+    printf("The sum of all Fibonacci sequence numbers less than 4000000 is %d\n", sum);
     return sum;
 }

@@ -7,28 +7,27 @@
  *  The sum of these multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000."
  *
  * Written By Alan Bishop 
- * Last Updated 4/6/2014
+ * Last Updated 10/11/2018
  */
-
 
 #include <stdio.h>
 
 int Problem1(void);
 
-//Small main to allow problems to all be combined into one program
+/* I fit a pattern here to make sure that every main can be consistent in these */
 int main(int argc, char * argv[])
 {
     Problem1();
-    return 0;
 }
 
+/* Gets the sum of all numbers where multiple of 3 or 5 */
 int Problem1(void)
 {
-    int i;
     int sum = 0;
-    for(i = 1; i < 1000; ++i)
+    for(int i = 1; i < 1000; ++i)
     {
-        if(i%3 == 0 || i%5 == 0) sum += i;
+        if(i%3 == 0 || i%5 == 0) 
+			sum += i;
     }
     printf("The sum of all multiples of 3 or 5 below 1000 is %d\n", sum);
     return sum;
