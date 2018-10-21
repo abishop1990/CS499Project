@@ -57,7 +57,6 @@ class SudokuGenerator
 
 		//Create a solved board
 		SolveBoard(newBoard, 0, 0, possibilities);
-
 		return newBoard;
 	}
 
@@ -72,25 +71,22 @@ class SudokuGenerator
 	{
 		Random rng = new Random(); //Using these rands to pick which number to put in place 
 
-
-		while (p[row, column].Count > 0)
-		{
+		while (p[row, column].Count > 0) {
 			//Make copy of p
 			List<int>[,] possibilities = new List<int>[9, 9];
-			for (int i = 0; i < 9; ++i)
-			{
-				for (int j = 0; j < 9; ++j)
-				{
+			for (int i = 0; i < 9; ++i) {
+				for (int j = 0; j < 9; ++j) {
 					possibilities[i, j] = new List<int>();
-					for (int k = 0; k < p[i, j].Count; ++k) { possibilities[i, j].Add(p[i, j].ElementAt(k)); }
+					for (int k = 0; k < p[i, j].Count; ++k) {
+                        possibilities[i, j].Add(p[i, j].ElementAt(k));
+                    }
 				}
 			}
 			int cellValue = board.GetCell(row, column);
-			if (cellValue == 0)
-			{
+
+			if (cellValue == 0) {
 				//If we have no possiblities, backtrack
-				if (possibilities[row, column].Count == 0)
-				{
+				if (possibilities[row, column].Count == 0) {
 					//Console.WriteLine("Returning false because [" + row + "," + column + "] has no posssibilties");
 					return false;
 				}
@@ -98,25 +94,25 @@ class SudokuGenerator
 				int randomIndex = rng.Next(0, possibilities[row, column].Count - 1);
 				cellValue = possibilities[row, column].ElementAt(randomIndex);
 				board.SetCell(row, column, cellValue);
-				//Console.WriteLine("Trying value " + cellValue + " for [" + row + "," + column + "]");
-				//Console.WriteLine(board);
 			}
 
 			//Update our values
 			RemovePossibiltiesForCell(row, column, cellValue, ref possibilities);
-			
-			//Recursively build the rest of the board
-			if (row == 8 && column == 8) return true;
-			else if (column == 8)
-			{
-				if (SolveBoard(board, row + 1, 0, possibilities)) { return true; }
-			}
-			else if (SolveBoard(board, row, column + 1, possibilities)) return true;
+
+            //Recursively build the rest of the board
+            if (row == 8 && column == 8) {
+                return true;
+            }
+            else if (column == 8) {
+                if (SolveBoard(board, row + 1, 0, possibilities)) {
+                    return true;
+                }
+            }
+            else if (SolveBoard(board, row, column + 1, possibilities)) return true;
 			//If this failed, the current board is bad, backtrack!
 			p[row, column].Remove(cellValue);
 			board.SetCell(row, column, 0);
 		}
-		//Console.WriteLine("Returning false because [" + row + "," + column + "] has no posssibilties");
 		return false;
 	}
 
@@ -127,12 +123,12 @@ class SudokuGenerator
 	{
 		//Create initial list
 		List<int>[,] possibilities = new List<int>[9, 9];
-		for (int row = 0; row < 9; ++row)
-		{
-			for (int column = 0; column < 9; ++column)
-			{
+		for (int row = 0; row < 9; ++row) {
+			for (int column = 0; column < 9; ++column) {
 				possibilities[row, column] = new List<int>();
-				for (int k = 1; k <= 9; ++k) { possibilities[row, column].Add(k); }
+				for (int k = 1; k <= 9; ++k) {
+                    possibilities[row, column].Add(k);
+                }
 			}
 		}
 		return possibilities;
@@ -143,27 +139,19 @@ class SudokuGenerator
 		//Update that cell's row and column of possibilities
 		for (int i = 0; i < 9; ++i)
 		{
-			if (i != column)
-			{
-				//Console.WriteLine("Removing " + cellValue + "from [" + row + "," + i + "]");
+			if (i != column) {
 				possibilities[row, i].Remove(cellValue);
 			}
-			if (i != row)
-			{
-				//Console.WriteLine("Removing " + cellValue + "from [" + i + "," + column + "]");
+			if (i != row) {
 				possibilities[i, column].Remove(cellValue);
 			}
 		}
 		//Update that cell's 3x3 grid of possibilities
 		int gridRowStart = (row / 3) * 3;
 		int gridColStart = (column / 3) * 3;
-		for (int i = gridRowStart; i < gridRowStart + 3; ++i)
-		{
-			for (int j = gridColStart; j < gridColStart + 3; ++j)
-			{
-				if (i != row || i != column)
-				{
-					//Console.WriteLine("Removing " + cellValue + "from [" + row + "," + column + "]");
+		for (int i = gridRowStart; i < gridRowStart + 3; ++i) {
+			for (int j = gridColStart; j < gridColStart + 3; ++j) {
+				if (i != row || i != column) {
 					possibilities[i, j].Remove(cellValue);
 				}
 			}
@@ -173,12 +161,12 @@ class SudokuGenerator
 	//This doesn't account for backtracking!
 	private static void MatchPossiblitiesToBoard(Board board, ref List<int>[,] possibilities)
 	{
-		for (int row = 0; row < 9; ++row)
-		{
-			for (int column = 0; column < 9; ++column)
-			{
+		for (int row = 0; row < 9; ++row) {
+			for (int column = 0; column < 9; ++column) {
 				int cellValue = board.GetCell(row, column);
-				if (cellValue != 0) RemovePossibiltiesForCell(row, column, cellValue, ref possibilities);
+                if (cellValue != 0) {
+                    RemovePossibiltiesForCell(row, column, cellValue, ref possibilities);
+                }
 			}
 		}
 	}
@@ -187,12 +175,13 @@ class SudokuGenerator
 	{
 		//Create list of possible blankables (1-81)
 		List<int> blankable = new List<int>();
-		for (int i = 0; i < 81; ++i) { blankable.Add(i); }
+		for (int i = 0; i < 81; ++i) {
+            blankable.Add(i);
+        }
 
 		Random rng = new Random(); //Used to select a cell to blank
 
-		while (board.GetNumBlanks() < numBlanks && blankable.Count > 0)
-		{
+		while (board.GetNumBlanks() < numBlanks && blankable.Count > 0) {
 			//Console.WriteLine("Removing cells..." + (numBlanks - board.GetNumBlanks()) +  " left, " + blankable.Count + " possible blanks");
 			//Pick a random cell
 			int cellIndex = rng.Next(0, blankable.Count - 1);
@@ -202,11 +191,9 @@ class SudokuGenerator
 			//Try to remove it 
 			if (CanRemove(board, row, col))
 			{
-				//Console.WriteLine("Successfully removed.[" + row + "," + col + "]");
 				//Keep removed if this produces only the unique solution
 				board.SetCell(row, col, 0);
 			}
-			//else Console.WriteLine("Failed to removed.[" + row + "," + col + "]");
 			//Remove from possible blankable cells
 			blankable.Remove(cellIndex);
 		}
@@ -216,7 +203,6 @@ class SudokuGenerator
 	{
 		int currentValue = board.GetCell(row, col);
 		if (currentValue == 0) return false; 
-		//Console.WriteLine("Trying to remove [" + row + "," + col + "] = " + currentValue);
 		//Create a list of possible numbers per cell  
 		List<int>[,] possibilities = GenerateDefaultPossibilities();
 		MatchPossiblitiesToBoard(board, ref possibilities);

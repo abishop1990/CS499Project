@@ -59,9 +59,9 @@ public partial class GUI : Form
 		sudokuGrid.CellBorderStyle = DataGridViewCellBorderStyle.Single;
 		sudokuGrid.Name = "dataGridView1";
 
-		sudokuGrid.RowTemplate.Height = 100;
-		foreach (DataGridViewRow row in sudokuGrid.Rows) { row.Height = 50; }
-		sudokuGrid.Size = new System.Drawing.Size(941, 500);
+		sudokuGrid.RowTemplate.Height = 40;
+		foreach (DataGridViewRow row in sudokuGrid.Rows) { row.Height = 40; }
+		sudokuGrid.Size = new System.Drawing.Size(941, 700);
 		sudokuGrid.TabIndex = 2;
 		sudokuGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 

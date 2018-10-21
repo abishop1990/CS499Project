@@ -17,20 +17,28 @@ public class Board
 	private void InitGrid()
 	{
 		cells = new int[9, 9];
-		for (int i = 0; i < 9; ++i)
-		{
-			for (int j = 0; j < 9; ++j) { cells[i, j] = 0; }
+		for (int i = 0; i < 9; ++i) {
+			for (int j = 0; j < 9; ++j) {
+                cells[i, j] = 0;
+            }
 		}
 	}
 
-	public int GetCell(int row, int column) { return cells[row, column]; }
-	public string GetCellString(int row, int column)
+	public int GetCell(int row, int column)
+    {
+        return cells[row, column];
+    }
+
+    public string GetCellString(int row, int column)
 	{
 		string str = "";
-		if (cells[row, column] != 0) { str += cells[row, column]; }
+		if (cells[row, column] != 0) {
+            str += cells[row, column];
+        }
 		return str;
 	}
-	public void SetCell(int row, int column, int val)
+
+    public void SetCell(int row, int column, int val)
 	{
 		if (val > 9 || val < 0) return;
 		cells[row, column] = val;
@@ -39,11 +47,10 @@ public class Board
 	public int GetNumBlanks()
 	{
 		int numBlanks = 0;
-		for(int r = 0; r < 9; ++r)
-		{
-			for (int c = 0; c < 9; ++c)
-			{
-				if (cells[r, c] == 0) numBlanks++;
+		for(int r = 0; r < 9; ++r) {
+			for (int c = 0; c < 9; ++c) {
+				if (cells[r, c] == 0)
+                    numBlanks++;
 			}
 		}
 		return numBlanks;
@@ -54,7 +61,11 @@ public class Board
 		SetCell(row, column, val);
 		return CheckSolved();
 	}
-	public bool IsSolved() { return solved; }
+
+    public bool IsSolved()
+    {
+        return solved;
+    }
 
 
 
@@ -64,8 +75,12 @@ public class Board
 	//(If there are 0s AKA blanks, will return false)
 	public bool CheckSolved()
 	{
-		if (!CheckRows() || !CheckColumns() || !CheckGrids()) { solved = false; }
-		else solved = true;
+        if (!CheckRows() || !CheckColumns() || !CheckGrids()) {
+            solved = false;
+        }
+        else {
+            solved = true;
+        }
 		return solved;
 	}
 
@@ -77,25 +92,31 @@ public class Board
 		for (int i = 0; i < 9; ++i)
 		{
 			//Init check values
-			for (int k = 1; k < 10; ++k) { hasValue[k] = false; }
-			for (int j = 0; j < 9; ++j)
-			{
-				if (hasValue[cells[i, j]] == true) { return false; }
+			for (int k = 1; k < 10; ++k) {
+                hasValue[k] = false;
+            }
+			for (int j = 0; j < 9; ++j) {
+				if (hasValue[cells[i, j]] == true) {
+                        return false;
+                }
 				else hasValue[cells[i, j]] = true;
 			}
 		}
 		return true;
 	}
+
 	//Check each column for if it has a valid solution
 	//Pretty much copy-pasta of checkRows, only indexing col/row switched
 	//(If there are 0s AKA blanks, will return false)
 	private bool CheckColumns()
 	{
 		bool[] hasValue = new bool[10]; //Checking for this value (Ex: hasValue[1] = there is a 1 in row)
-		for (int i = 0; i < 9; ++i)
-		{
+		for (int i = 0; i < 9; ++i) {
 			//Init check values
-			for (int k = 1; k < 10; ++k) { hasValue[k] = false; }
+			for (int k = 1; k < 10; ++k)
+            {
+                hasValue[k] = false;
+            }
 			for (int j = 0; j < 9; ++j)
 			{
 				if (hasValue[cells[j, i]] == true) { return false; }
@@ -130,11 +151,11 @@ public class Board
 	private bool CheckSubGrid(int xstart, int ystart)
 	{
 		bool[] hasValue = new bool[10]; //Checking for this value (Ex: hasValue[1] = there is a 1 in row)
-		for (int i = xstart; i < (xstart + 3); ++i)
-		{
-			for (int j = ystart; j < (ystart + 3); ++j)
-			{
-				if (hasValue[cells[j, i]] == true) { return false; }
+		for (int i = xstart; i < (xstart + 3); ++i) {
+			for (int j = ystart; j < (ystart + 3); ++j) {
+				if (hasValue[cells[j, i]] == true) {
+                    return false;
+                }
 				hasValue[cells[j, i]] = true;
 			}
 		}
@@ -152,19 +173,17 @@ public class Board
 		string rowSeperator = " |-----------|-----------|-----------| \n";
 		string columnSeperator = " | ";
 		str += "   ";
-		for (int i = 0; i < 9; ++i)
-		{
+		for (int i = 0; i < 9; ++i) {
 			char column = (char)(((int)'A') + i);
 			str += " " + column + " ";
-			if ((i + 1) % 3 == 0) str += "   ";
+			if ((i + 1) % 3 == 0)
+                str += "   ";
 		}
 		str += "\n";
 		char row = 'A';
-		for (int i = 0; i < 9; ++i)
-		{
+		for (int i = 0; i < 9; ++i) {
 			str += rowSeperator;
-			for (int j = 0; j < 9; ++j) 
-			{
+			for (int j = 0; j < 9; ++j)  {
 				str += columnSeperator;
 				if (cells[i, j] != 0) str += cells[i, j];
 				else str += " ";
@@ -181,9 +200,10 @@ public class Board
 	public Board CopyBoard()
 	{
 		Board newBoard = new Board();
-		for (int i = 0; i < 9; ++i )
-		{
-			for(int j = 0; j < 9; ++j) { newBoard.SetCell(i,j,cells[i, j]); }
+		for (int i = 0; i < 9; ++i ) {
+			for(int j = 0; j < 9; ++j) {
+                newBoard.SetCell(i,j,cells[i, j]);
+            }
 		}		
 		newBoard.CheckSolved();
 		return newBoard;
